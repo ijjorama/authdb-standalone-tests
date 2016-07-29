@@ -1,0 +1,30 @@
+# VO = Dteam
+u dteamprod /dteam:data/ a /dteam:scratch/ a
+u dteamuser /dteam:data/ r /dteam:scratch/ a
+
+# VO = Atlas
+u atlasprod /atlas:data/ a /atlas:scratch/ a
+u atlasuser /atlas:data/ r /atlas:scratch/ a
+
+# VO = CMS
+u cmsprod /cms:data/ a /cms:scratch/ a
+u cmsuser /cms:data/ r /cms:scratch/ a
+
+# USER = test (RAL only)
+u testprod /test:data/ a /test:scratch/ a
+u testuser /test:data/ r /test:scratch/ a
+
+u notvalid /wibble/ a
+
+#TEST+./xrdacctest -s  -c /dev/null  atlasprod  nohost  rd  /atlas:data/object+0+Production user, read own pool
+#TEST+./xrdacctest -s  -c /dev/null  atlasprod  nohost  wr  /atlas:data/object+0+Production user, write own pool
+#TEST+./xrdacctest -s  -c /dev/null  atlasprod  nohost  rd  /atlas:scratch/object+0+Production user, read other (subordinate)  pool
+#TEST+./xrdacctest -s  -c /dev/null  atlasprod  nohost  wr  /atlas:scratch/object+0+Production user, write other (subordinate) pool
+
+#TEST+./xrdacctest -s  -c /dev/null  atlasuser  nohost  rd  /atlas:scratch/object+0+Analysis user, read own pool
+#TEST+./xrdacctest -s  -c /dev/null  atlasuser  nohost  wr  /atlas:scratch/object+0+Analysis user, write own pool
+#TEST+./xrdacctest -s  -c /dev/null  atlasuser  nohost  rd  /atlas:data/object+0+Analysis user, read  other (superior)  pool
+#TEST+./xrdacctest -s  -c /dev/null  atlasuser  nohost  wr  /atlas:data/object+1+Analysis user, write other (superior) pool (we check this is denied)
+#TEST+./xrdacctest -s  -c /dev/null  atlasprod  nohost  wr  /atlas:no-no,no-no-no-no,no-no-no-no,no-no-theres-no-data/object+1+Production user, write non-existent  pool (we check this is denied)
+#TEST+./xrdacctest -s  -c /dev/null  nosuchuser  nohost  wr  /atlas:data/object+1+Non-existent user, write  pool (we check this is denied)
+
